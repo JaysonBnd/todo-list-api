@@ -2,8 +2,14 @@ import Config
 
 # Configure your database
 config :todo_list, TodoList.Repo,
-  username: "postgres",
-  password: "1379524685",
+  username: (System.get_env("POSTGRES_USERNAME") ||
+      raise ("""
+      environment variable POSTGRES_USERNAME is missing.
+      """)),
+  password: (System.get_env("POSTGRES_PASSWORD") ||
+      raise ("""
+      environment variable POSTGRES_PASSWORD is missing.
+      """)),
   hostname: "localhost",
   database: "todo_list_dev",
   stacktrace: true,
