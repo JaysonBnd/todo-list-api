@@ -51,16 +51,17 @@ defmodule TodoList.Time do
       ** (Ecto.NoResultsError)
 
   """
-  def get_clock_by_user_id!(user_id) do
+  def get_clock_by_user_id(user_id) do
     query =
       from c in Clock,
         where: c.user_id == ^user_id
 
+    last(query, :id)
     data = Repo.all(query)
 
     case data do
       [] -> {:error, "No clock for this user."}
-      _ -> {:ok, last(data, )}
+      _ -> {:ok, Enum.at(data, 0)}
     end
   end
 
